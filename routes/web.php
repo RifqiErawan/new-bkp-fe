@@ -32,8 +32,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/store', 'AdminController@storePembantuDirektur')->name('admin.pembantu_direktur.store');
     });
     Route::prefix('post')->group(function () {
-        Route::get('/create', 'AdminController@createPembantuDirektur')->name('admin.pembantu_direktur.create');
-        Route::post('/store', 'AdminController@storePembantuDirektur')->name('admin.pembantu_direktur.store');
+        Route::get('/create', 'AdminController@createPost')->name('admin.post.create');
+        Route::post('/store', 'AdminController@storePost')->name('admin.post.store');
     });
 });
 
