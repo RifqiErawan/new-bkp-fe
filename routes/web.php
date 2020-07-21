@@ -53,6 +53,7 @@ Route::prefix('konselor')->group(function () {
 Route::prefix('pembantu_direktur')->group(function () {
     Route::get('/', 'PembantuDirekturController@dashboard')->name('pembantu_direktur.dashboard');
     Route::get('/profile', 'PembantuDirekturController@profile')->name('pembantu_direktur.profile');
+    Route::get('/tahunan', 'PembantuDirekturController@dataTahunan')->name('pembantu_direktur.tahunan');
 });
 
 Route::prefix('mahasiswa')->group(function () {

@@ -183,7 +183,7 @@
   <!-- Bootstrap 4 -->
   <script src="{{ asset('assets/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <!-- ChartJS -->
-  <script src="{{ asset('assets/admin-lte/plugins/chart.js') }}/Chart.min.js') }}"></script>
+  <script src="{{ asset('assets/admin-lte/plugins/chart.js/Chart.min.js') }}"></script>
   <!-- Sparkline -->
   <script src="{{ asset('assets/admin-lte/plugins/sparklines/sparkline.js') }}"></script>
   <!-- JQVMap -->

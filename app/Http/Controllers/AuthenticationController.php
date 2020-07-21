@@ -38,7 +38,7 @@ class AuthenticationController extends Controller
             $roles = $response->result->credential->user_data->roles;
             if($roles[0]->name == 'mahasiswa')
                 return redirect()->route('mahasiswa.dashboard');
-            elseif ($roles[0]->name == 'pembantu_direktur')
+            elseif ($roles[0]->name == 'pd3')
                 return redirect()->route('pembantu_direktur.dashboard');
             elseif ($roles[0]->name == 'konselor')
                 return redirect()->route('konselor.dashboard');
