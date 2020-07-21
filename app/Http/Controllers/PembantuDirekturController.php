@@ -16,9 +16,26 @@ class PembantuDirekturController extends Controller
 
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-    	return view('pembantu_direktur.dashboard');
+        try {
+            $client = new Client();
+            $token = $request->session()->get('credential')->token;
+            $httpRequest = $client->get(Config::get('constants.api_base_url').'api/konseling/all', [
+              'headers' => [
+                  'Authorization' => 'bearer ' . $token,
+              ],
+              'form_params' => $request->except('_token')
+            ]);
+            $jsonResponse = $httpRequest->getBody();
+            $response = json_decode($jsonResponse);
+            $list_konseling = $response->result->list_konseling;
+            return view('pembantu_direktur.dashboard', compact('list_konseling'));
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            echo $responseBodyAsString;
+        }
     }
 
     public function dataTahunan(Request $request)

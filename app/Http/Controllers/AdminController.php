@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Config;
@@ -107,6 +108,50 @@ class AdminController extends Controller
             $response = json_decode($jsonResponse);
             $pd3 = $response->result->pd3_data;
             return redirect()->route('admin.dashboard')->with('success', 'Pembantu direktur berhasil ditambahkan');
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            echo $responseBodyAsString;
+        }
+    }
+
+    public function createPost()
+    {
+        return view('admin.post.create');
+    }
+
+    public function storePost(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'image' => 'required|string',
+        ]);
+        $image = Str::random(34);
+        $request->file('image')->move(storage_path('posts'), $image);
+        // $image = storage_path('image') . '/' . $name;
+        // if (file_exists($image_path)) 
+        // {
+        //     $image = file_get_contents($image_path);
+        //     return response($file, 200)->header('Content-Type', 'image/jpeg');
+        // }
+        try {
+            $client = new Client();
+            $token = $request->session()->get('credential')->token;
+            $httpRequest = $client->post(Config::get('constants.api_base_url').'api/admin/posts/store', [
+                'headers' => [
+                    'Authorization' => 'bearer ' . $token,
+                ],
+                'form_params' => [
+                    'title' => $request->title,
+                    'body' => $request->body,
+                    'image' => $request->image
+                ],
+            ]);
+            $jsonResponse = $httpRequest->getBody();
+            $response = json_decode($jsonResponse);
+            $posts = $response->result->posts;
+            return redirect()->route('admin.dashboard')->with('success', 'Artikel berhasil ditambahkan');
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $response = $e->getResponse();
             $responseBodyAsString = $response->getBody()->getContents();
