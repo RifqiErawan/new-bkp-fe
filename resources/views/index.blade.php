@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,18 +11,21 @@
     <link rel="stylesheet" href="{{ asset('assets/admin-lte/dist/css/adminlte.min.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
+
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-dark navbar-dark">
             <div class="container">
-                <a href="index3.html" class="navbar-brand">
-                    <img src="{{ asset('assets/img/logo-polban.svg') }}" alt="AdminLTE Logo" class="brand-image mx-2" style="opacity: .9">
+                <a href="{{url('/')}}" class="navbar-brand">
+                    <img src="{{ asset('assets/img/logo-polban.svg') }}" alt="Polban Logo" class="brand-image mx-2" style="opacity: .9">
                     <span class="brand-text">BKP Politenik Negeri Bandung</span>
                     <!--  font-weight-light -->
                 </a>
 
-                <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler order-1" type="button" data-toggle="collapse"
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -35,37 +39,38 @@
                             <a href="{{route('profile')}}" class="nav-link">Profil</a>
                         </li>
                         <?php if(isset(\Session::get('credential')->user_data->roles[0]->name)){ ?>
-                            <li class="nav-item dropdown">
-                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
-                                  <?php
+                        <li class="nav-item dropdown">
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" class="nav-link dropdown-toggle">
+                                <?php
                                       $name = \Session::get('credential')->user_data->profile->nama ;
                                       $firstName = explode(" ",$name);
-                                      echo "Hai, " . $firstName[0];
+                                      echo "Halo,&nbsp" . $firstName[0];
                                    ?>
-                                </a>
-                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <?php if(\Session::get('credential')->user_data->roles[0]->name == "admin"){ ?>
-                                        <li><a href="{{route('admin.dashboard')}}" class="d-block dropdown-item">Dashboard</a></li>
-                                    <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "konselor"){ ?>
-                                        <li><a href="{{route('konselor.dashboard')}}" class="d-block dropdown-item">Dashboard</a></li>
-                                    <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "mahasiswa"){ ?>
-                                        <li><a href="{{route('mahasiswa.dashboard')}}" class="d-block dropdown-item">Dashboard</a></li>
-                                    <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "pembantu_direktur"){ ?>
-                                        <li><a href="{{route('pembantu_direktur.dashboard')}}" class="d-block dropdown-item">Dashboard</a></li>
-                                    <?php } ?>
-                                    <li class="dropdown-divider"></li>
-                                    <li>
-                                      <form action="{{route('auth.logout')}}" method="post">
+                            </a>
+                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                <?php if(\Session::get('credential')->user_data->roles[0]->name == "admin"){ ?>
+                                <li><a href="{{route('admin.dashboard')}}" class="d-block dropdown-item">Dashboard Admin</a></li>
+                                <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "konselor"){ ?>
+                                <li><a href="{{route('konselor.dashboard')}}" class="d-block dropdown-item">Dashboard Konseling</a></li>
+                                <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "mahasiswa"){ ?>
+                                <li><a href="{{route('mahasiswa.dashboard')}}" class="d-block dropdown-item">Dashboard Konseling</a></li>
+                                <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "pd3"){ ?>
+                                <li><a href="{{route('pembantu_direktur.dashboard')}}" class="d-block dropdown-item">Dashboard BKP</a></li>
+                                <?php } ?>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{{route('auth.logout')}}" method="post">
                                         @csrf
-                                        <button type="submit" class="dropdown-item">Logout</button>
-                                      </form>
-                                    </li>
-                                </ul>
-                            </li>
+                                        <button type="submit" class="dropdown-item text-danger">Keluar</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
                         <?php } else { ?>
-                          <li class="nav-item">
-                              <a href="{{route('auth.login_form')}}" class="nav-link">Dashboard</a>
-                          </li>
+                        <li class="nav-item">
+                            <a href="{{route('auth.login_form')}}" class="nav-link">Laman Konseling</a>
+                        </li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -78,6 +83,41 @@
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container">
+                    <div id="carouselExampleIndicators" class="carousel slide mb-3" data-ride="carousel"
+                        style="max-height: 300px; overflow:hidden">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class=" d-block w-100" style="width: 100%; height: auto"
+                                    src="https://placehold.it/1200x300/39CCCC/ffffff&text=Info+BKP+(A)"
+                                    alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" style="width: 100%; height: auto"
+                                    src="https://placehold.it/1200x300/3c8dbc/ffffff&text=Info+BKP+(B)"
+                                    alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" style="width: 100%; height: auto"
+                                    src="https://placehold.it/1200x300/f39c12/ffffff&text=Info+BKP+(C)"
+                                    alt="Third slide">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                            data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                            data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0 text-dark">Beranda</h1>
@@ -100,24 +140,35 @@
 
                         <!-- Blog Entries Column -->
                         <div class="col-md-8">
+                            @isset($posts)
+                            @foreach ($posts as $post)
+
                             <!-- Blog Post -->
                             <div class="card mb-4">
-                                <img class="card-img-top" src="https://via.placeholder.com/728x180.png?text=Gambar+Posting+BKP" alt="Card image cap">
+                                @isset($post->image_url)
+                                <img class="card-img-top"
+                                    src="https://via.placeholder.com/728x180.png?text=Gambar+Posting+BKP"
+                                    alt="Card image cap">
+                                @endisset
                                 <div class="card-body">
-                                    <h2 class="card-title"><b>Roadshow BKP bagi Mahasiswa Angkatan 2015</b></h2>
-                                    <p class="card-text">By Muhammad Saiful Islam / 12 Maret 2016</p>
-                                    <p class="card-text">Pada hari Rabu (2/3), UPT Bimbingan, Konseling, dan Pendampingan (BKP) Politeknik Negeri Bandung menyelenggarakan roadshow bagi mahasiswa JTK angkatan 2015. Kunjungan BKP ke JTK merupakan kunjungan pertama dari 14 kunjungan yang dijadwalkan bagi 14 jurusan yang ada di Polban.</p>
-                                    <p class="card-text">Roadshow diselenggarakan di Ruang Serbaguna, lantai 2 gedung JTK Polban pada pukul 15.30 WIB, dengan materi dari Muhammad Arman, S.T., S.Psi., M.T. selaku Ketua UPT BKP Polban. Pada kesempatan ini, Arman membahas mengenai permasalahan yang biasa dialami oleh mahasiswa tingkat satu, seperti kesulitan mengatur waktu belajar, kurangnya motivasi dan semangat belajar, salah cara belajar, sulit menyesuaikan diri, toleransi tinggal di asrama/tempat indekos, dan frustasi serta konflik pribadi.</p>
-                                    <p class="card-text">Ditanyai mengenai kegiatan tersebut, Novia Sukmasari, salah satu mahasiswa JTK mengaku mendapatkan pengetahuan baru serta sedikit-banyak termotivasi dari kegiatan tersebut. Terutama, karena permasalahan yang dibahas memang merupakan hal-hal yang sedang dialami oleh para mahasiswa tingkat 1, dan juga ada masalah-masalah yang tidak disadari sebelumnya.</p>
-                                    <p class="card-text">Selain itu, Nita Amelia, mahasiswa JTK lainnya juga mengungkapkan bahwa setelah pengumuman hasil semester pertama di JTK, banyak yang merasa kecewa dengan perolehan akademik masing-masing. Karenanya, roadshow yang diselenggarakan UPT BKP ini cukup bagus. Selain itu, penyampaian Arman sebagai pemateri — yang juga merupakan lulusan S-1 Psikologi Universitas Padjadjaran tahun 1997 — dinilai baik karena dapat “menggali” para mahasiswa yang ragu untuk mengungkapkan pikirannya. (MS)</p>
-                                    <p class="card-text">Foto utama: Muhammad Arman pada sesi tanya jawab setelah penyampaian materinya di Roadshow UPT BKP Polban. (Sumber: Departemen Komunikasi dan Informasi, Himpunan Mahasiswa Komputer)</p>
+                                    <h2 class="card-title"><b>{{$post->title}}</b></h2>
+                                    <p class="card-text">{{$post->body}}</p>
                                 </div>
                                 <div class="card-footer text-muted">
-                                    Posted on <?php echo Carbon\Carbon::now()->toDateTimeString(); ?> by
-                                    <a href="#">Admin</a>
+                                    @if($post->created_at == $post->updated_at)
+                                    Dibuat
+                                    @else
+                                    Diperbaharui
+                                    @endif
+                                    pada {{$post->updated_at}} oleh <a href="">Admin</a>
                                 </div>
                             </div>
-
+                            @endforeach
+                            @endisset
+                            @empty($records)
+                                <h3 class="text-center text-secondary my-5">Belum ada posting</h3>
+                            @endempty
+                            @empty(!$posts)
                             <!-- Pagination -->
                             <ul class="pagination justify-content-center mb-4">
                                 <li class="page-item">
@@ -130,17 +181,18 @@
                                     <a class="page-link" href="#">Baru</a>
                                 </li>
                             </ul>
+                            @endempty
                         </div>
                         <div class="col-md-4">
 
                             <!-- Search Widget -->
-                            <div class="card my-4">
+                            <div class="card mb-4">
                                 <h5 class="card-header">Cari</h5>
                                 <div class="card-body">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Cari ...">
+                                        <input type="text" class="form-control" placeholder="Cari ..." disabled>
                                         <span class="input-group-btn">
-                                            <button class="btn btn-secondary" type="button">Cari</button>
+                                            <button class="btn btn-secondary" type="button" disabled>Cari</button>
                                         </span>
                                     </div>
                                 </div>
@@ -154,13 +206,13 @@
                                         <div class="col-lg-6">
                                             <ul class="list-unstyled mb-0">
                                                 <li>
-                                                    <a href="#">Psychology</a>
+                                                    <a href="">Psychology</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">Relationship</a>
+                                                    <a href="">Relationship</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">Motivation</a>
+                                                    <a href="">Motivation</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -171,9 +223,11 @@
                                 <h5 class="card-header">
                                     Social Page
                                 </h5>
-                                <div class="fb-page" data-href="https://www.facebook.com/" data-tabs="timeline" data-width="900" data-height="600" data-small-header="false" data-adapt-container-width="true"
-                                  data-hide-cover="false" data-show-facepile="true">
-                                    <blockquote cite="https://www.facebook.com/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/">Facebook</a></blockquote>
+                                <div class="fb-page" data-href="https://www.facebook.com/" data-tabs="timeline"
+                                    data-width="900" data-height="600" data-small-header="false"
+                                    data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                                    <blockquote cite="https://www.facebook.com/" class="fb-xfbml-parse-ignore"><a
+                                            href="https://www.facebook.com/">Facebook</a></blockquote>
                                 </div>
                             </div>
 
@@ -210,7 +264,8 @@
             </div>
 
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            reserved.
         </footer>
     </div>
     <!-- ./wrapper -->

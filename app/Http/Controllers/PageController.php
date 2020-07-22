@@ -10,7 +10,18 @@ class PageController extends Controller
 {
     //
     public function index(){
-        return view('index');
+        try {
+            $client = new Client();
+            $httpRequest = $client->get(Config::get('constants.api_base_url').'api/post/all', []);
+            $jsonResponse = $httpRequest->getBody();
+            $response = json_decode($jsonResponse);
+            $posts = $response->result->post;
+            return view('index', compact('posts'));
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            echo $responseBodyAsString;
+        }
     }
 
     public function profile(Request $request){

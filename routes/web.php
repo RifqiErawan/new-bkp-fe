@@ -42,6 +42,7 @@ Route::prefix('konselor')->group(function () {
     Route::get('/profile', 'KonselorController@profile')->name('konselor.profile');
     Route::get('/feedback', 'KonselorController@feedback')->name('konselor.feedback');
     Route::get('/konseling', 'KonselorController@konselingAll')->name('konselor.konseling');
+    Route::get('/konseling/list', 'KonselorController@konselingList')->name('konselor.konseling.list');
     Route::post('/konseling/show', 'KonselorController@show')->name('konselor.konseling.show');
     Route::get('/konseling/history', 'KonselorController@history')->name('konselor.konseling.history');
     Route::get('/konseling/create', 'KonselorController@create')->name('konselor.konseling.create');

@@ -95,6 +95,29 @@ class KonselorController extends Controller
         }
     }
 
+    public function konselingList(Request $request)
+    {
+        try {
+            $client = new Client();
+            $token = $request->session()->get('credential')->token;
+            $httpRequest = $client->post(Config::get('constants.api_base_url').'api/konseling/konselor', [
+              'headers' => [
+                  'Authorization' => 'bearer ' . $token,
+              ],
+              'form_params' => $request->except('_token')
+            ]);
+            $jsonResponse = $httpRequest->getBody();
+            $response = json_decode($jsonResponse);
+            $list_konseling = array();
+            $list_konseling = $response->result->konseling;
+            return view('konselor.konseling.list', compact('list_konseling'));
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            echo $responseBodyAsString;
+        }
+    }
+
     public function profile(Request $request)
     {
         try {

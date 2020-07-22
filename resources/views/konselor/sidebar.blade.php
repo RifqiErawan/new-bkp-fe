@@ -26,7 +26,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a href="#" class="nav-link">
+    <a href="{{route('konselor.konseling.list')}}" class="nav-link {{ (request()->segment(1) == 'konselor' && request()->segment(2) == 'konseling' && request()->segment(3) == 'list') ? 'active' : '' }}">
     <i class="nav-icon far fa-plus-square"></i>
     <p>
       Konfirmasi Pertemuan

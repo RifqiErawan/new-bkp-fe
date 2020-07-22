@@ -69,10 +69,10 @@
                     <b>TTL</b> <a class="float-right">{{$konseling->mahasiswa->tempat_lahir}}, {{$konseling->mahasiswa->tanggal_lahir}}</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Telepon</b> <a class="float-right">{{$konseling->mahasiswa->nomor_hp}}</a>
+                    <b>Telepon</b> <a class="float-right" href="tel:{{$konseling->mahasiswa->nomor_hp}}">{{$konseling->mahasiswa->nomor_hp}}</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Email</b> <a class="float-right">{{$konseling->mahasiswa->email}}</a>
+                    <b>Email</b> <a class="float-right" href="mailto:{{$konseling->mahasiswa->email}}">{{$konseling->mahasiswa->email}}</a>
                   </li>
                   <li class="list-group-item">
                     <b>Alamat</b> <a class="float-right">{{$konseling->mahasiswa->alamat}}, {{$konseling->mahasiswa->kota}}</a>
@@ -96,9 +96,10 @@
 
                 <?php
                   $status = array(
-                    'created' => 'Menunggu Konfirmasi',
-                    'approved' => 'Telah Dikonfirmasi',
-                    'rescheduled' => 'Sedang Dijadwalkan Ulang',
+                    'created' => 'Menunggu konfirmasi Konselor',
+                    'approved' => 'Telah dikonfirmasi Konselor',
+                    'rescheduled-by-counselor' => 'Konselor meminta jadwal ulang',
+                    'rescheduled-by-student' => 'Mahasiswa meminta jadwal ulang',
                     'succeed' => 'Selesai',
                     'canceled' => 'Dibatalkan',
                   );
@@ -124,7 +125,13 @@
 
                 <strong><i class="far fa-file-alt mr-1"></i> Keterangan</strong>
 
-                <p class="text-muted">{{$konseling->keterangan}}</p>
+                <p class="text-muted">
+                    @if(isset($konseling->keterangan))
+                        {{$konseling->keterangan}}
+                    @else
+                        Tidak ada keterangan.
+                    @endif
+                </p>
               </div>
               <!-- /.card-body -->
             </div>
@@ -135,7 +142,7 @@
             <!-- About Me Box -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Keterangan</h3>
+                <h3 class="card-title">Formulir Laporan dan Konfirmasi</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -146,33 +153,31 @@
                     <div class="col-sm-12">
                       <!-- textarea -->
                       <div class="form-group">
-                        <label>Keterangan</label>
-                        <textarea class="form-control" rows="3" placeholder="Masukkan keterangan" <?php if($konseling->status == 'succeed' || $konseling->status == 'canceled') echo "disabled"; ?>>
-                            {{$konseling->keterangan}}
-                        </textarea>
+                        <label>Keterangan / Pesan untuk mahasiswa bersangkutan</label>
+                        <textarea class="form-control" rows="3" placeholder="Tulis keterangan atau biarkan kosong." <?php if($konseling->status == 'succeed' || $konseling->status == 'canceled') echo "disabled"; ?>>{{$konseling->keterangan}}</textarea>
                       </div>
                     </div>
                     <div class="col-sm-12">
                       <!-- textarea -->
                       <div class="form-group">
                         <label>Laporan</label>
-                        <textarea class="form-control" rows="5" placeholder="Masukkan keterangan" <?php if($konseling->status == 'created' || $konseling->status == 'rescheduled' || $konseling->status == 'succeed' || $konseling->status == 'canceled' ) echo "disabled"; ?>>
-                            {{$konseling->laporan_teks}}
-                        </textarea>
+                        <textarea class="form-control" rows="5" placeholder="Anda belum menulis laporan. Tulis laporan setelah melakukan konfirmasi konseling." <?php if($konseling->status == 'created' || $konseling->status == 'rescheduled' || $konseling->status == 'succeed' || $konseling->status == 'canceled' || $konseling->status == 'rescheduled-by-counselor' ) echo "disabled"; ?>>{{$konseling->laporan_teks}}</textarea>
                       </div>
                     </div>
                     @if($konseling->status != 'canceled' || $konseling->status != 'succeed')
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <label>Status</label>
+                        <label>Konfirmasi status konseling</label>
                         <select class="form-control custom-select" name="status" <?php if($konseling->status == 'succeed' || $konseling->status == 'canceled') echo "disabled"?>>
-                          @if($konseling->status == 'created')
-                          <option value="approved">Konfirmasi</option>
-                          <option value="rescheduled">Jadwakan Ulang</option>
-                          <option value="canceled">Batalkan</option>
+                          @if($konseling->status == 'created' || $konseling->status == 'rescheduled-by-student')
+                          <option value="approved">Konfirmasikan jadwal</option>
+                          <option value="rescheduled-by-counselor">Minta jadwalkan ulang</option>
                           @elseif($konseling->status == 'approved')
-                          <option value="succeed">Tandai Selesai</option>
+                          <option value="succeed">Tandai sebagai selesai</option>
+                          @elseif($konseling->status == 'succeed')
+                          <option value="succeed">Selesai</option>
                           @endif
+                          <option value="canceled">Batalkan penjadwalan</option>
                         </select>
                       </div>
                     </div>

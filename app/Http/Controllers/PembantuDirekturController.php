@@ -21,7 +21,7 @@ class PembantuDirekturController extends Controller
         try {
             $client = new Client();
             $token = $request->session()->get('credential')->token;
-            $httpRequest = $client->get(Config::get('constants.api_base_url').'api/konseling/all', [
+            $httpRequest = $client->post(Config::get('constants.api_base_url').'api/pd3/tahunan', [
               'headers' => [
                   'Authorization' => 'bearer ' . $token,
               ],
@@ -29,8 +29,9 @@ class PembantuDirekturController extends Controller
             ]);
             $jsonResponse = $httpRequest->getBody();
             $response = json_decode($jsonResponse);
-            $list_konseling = $response->result->list_konseling;
-            return view('pembantu_direktur.dashboard', compact('list_konseling'));
+            if(!isset($response)) return redirect()->route('home');
+            else $data = $response->result;
+            return view('pembantu_direktur.dashboard', compact('data'));
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $response = $e->getResponse();
             $responseBodyAsString = $response->getBody()->getContents();

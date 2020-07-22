@@ -21,38 +21,6 @@ class MahasiswaController extends Controller
 
     public function konseling(Request $request)
     {
-        // try {
-        //     $client = new Client();
-        //     $id = $request->session()->get('credential')->user_data->profile->id;
-        //     $token = $request->session()->get('credential')->token;
-        //     $httpRequest = $client->get(Config::get('constants.api_base_url').'api/konseling/mhs', [
-        //       'body' => [
-        //           'mhs_id' => $id,
-        //       ],
-        //       'headers' => [
-        //           'Authorization' => 'bearer ' . $token,
-        //       ],
-        //       'form_params' => $request->except('_token')
-        //   ]);
-        //     $jsonResponse = $httpRequest->getBody();
-        //     $response = json_decode($jsonResponse);
-        //     $list_konseling = $response->result->list_konseling;
-        //     $list_jadwal = array();
-        //     foreach ($list_konseling as $key => $value) {
-        //        array_push($list_jadwal, [
-        //          'title' => $value->status,
-        //          'start' => $value->waktu_mulai,
-        //          'end' => $value->waktu_selesai,
-        //          'backgroundColor' => '#f56954',
-        //          'borderColor' => '#f56954'
-        //        ]);
-        //     }
-        //     return view('mahasiswa.dashboard',compact('list_jadwal'));
-        // } catch (GuzzleHttp\Exception\ClientException $e) {
-        //     $response = $e->getResponse();
-        //     $responseBodyAsString = $response->getBody()->getContents();
-        //     echo $responseBodyAsString;
-        // }
     }
 
     public function konselingAll(Request $request)
@@ -75,26 +43,32 @@ class MahasiswaController extends Controller
                 $bgColor = '';
                 if ($value->status == 'created') {
                     $bgColor = '#6c757d';
+                    $textColor = '#ffffff';
                 }
                 if ($value->status == 'approved') {
                     $bgColor = '#007bff';
+                    $textColor = '#ffffff';
                 }
                 if ($value->status == 'canceled') {
                     $bgColor = '#dc3545';
+                    $textColor = '#ffffff';
                 }
-                if ($value->status == 'rescheduled') {
+                if ($value->status == 'rescheduled-by-counselor' || $value->status == 'rescheduled-by-student' ) {
                     $bgColor = '#ffc107';
+                    $textColor = '#000000';
                 }
                 if ($value->status == 'succeed') {
                     $bgColor = '#28a745';
+                    $textColor = '#ffffff';
                 }
                 if ($value->status) {
                     array_push($list_jadwal, [
-                       'title' => $value->konselor->nama,
-                       'start' => $value->waktu_mulai,
-                       'end' => $value->waktu_selesai,
-                       'backgroundColor' => $bgColor,
-                       'borderColor' => $bgColor
+                        'title' => $value->konselor->nama,
+                        'start' => $value->waktu_mulai,
+                        'end' => $value->waktu_selesai,
+                        'backgroundColor' => $bgColor,
+                        'borderColor' => $bgColor,
+                        'textColor' => $textColor,
                    ]);
                 }
             }
