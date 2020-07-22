@@ -125,12 +125,11 @@ class AdminController extends Controller
         $this->validate($request, [
             'title' => 'required|string',
             'body' => 'required|string',
-            'image' => 'required|string',
         ]);
-        $image = Str::random(34);
-        $request->file('image')->move(storage_path('posts'), $image);
+        // $image = Str::random(34);
+        // $request->file('image')->move(storage_path('posts'), $image);
         // $image = storage_path('image') . '/' . $name;
-        // if (file_exists($image_path)) 
+        // if (file_exists($image_path))
         // {
         //     $image = file_get_contents($image_path);
         //     return response($file, 200)->header('Content-Type', 'image/jpeg');
@@ -149,9 +148,10 @@ class AdminController extends Controller
                 ],
             ]);
             $jsonResponse = $httpRequest->getBody();
-            $response = json_decode($jsonResponse);
-            $posts = $response->result->posts;
-            return redirect()->route('admin.dashboard')->with('success', 'Artikel berhasil ditambahkan');
+            echo $jsonResponse;
+            // $response = json_decode($jsonResponse);
+            // $posts = $response->result->posts;
+            // return redirect()->route('admin.dashboard')->with('success', 'Artikel berhasil ditambahkan');
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $response = $e->getResponse();
             $responseBodyAsString = $response->getBody()->getContents();
