@@ -1,6 +1,6 @@
 @extends('template.admin')
 @include('admin.sidebar')
-@section('title','| Admin - Buat Artikel')
+@section('title','| Admin - Konselor')
 
 @section('stylesheet')
 <link rel="stylesheet" href="{{asset('assets/admin-lte/plugins/fontawesome-free/css/all.min.css')}}">
@@ -29,12 +29,12 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1>Buat Artikel</h1>
+					<h1>Tambahkan Konselor</h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
 						<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-						<li class="breadcrumb-item active">Create Post</li>
+						<li class="breadcrumb-item active">Tambahkan Konselor</li>
 					</ol>
 				</div>
 			</div>
@@ -48,36 +48,52 @@
 				<div class="card">
 					<div class="card-body">
 
-						<form class="" action="{{route('admin.post.store')}}" method="post" enctype="multipart/form-data">
-							@csrf
+						<form class="" action="{{route('admin.konselor.store')}}" method="post" enctype="multipart/form-data">
+                            @csrf
 
+                            <div class="form-group">
+                                <label>NIP</label>
+                                <input type="number" class="form-control" name="nip" placeholder="nip" required/>
+                            </div>
+                            <div class="form-group">
+                                <label>Program Studi (Prodi)</label>
+                                <select class="form-control" id="program_studi_id" name="program_studi_id">
+                                    <option value="">-- Pilih Program Studi --</option>
+                                    @foreach ($listProgramStudi as $prodi)
+                                    <option value="{{$prodi->id}}">{{$prodi->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama</label>
+                                <input type="text" class="form-control" name="nama" placeholder="nama" required/>
+                            </div>
+                            <div class="form-group">
+                                <label>Tempat Lahir</label>
+                                <input type="text" class="form-control" name="tempat_lahir" placeholder="tempat_lahir" required/>
+                            </div>
+                            <div class="form-group">
+                                <label>Tanggal Lahir</label>
+                                <input type="date" class="form-control" name="tanggal_lahir" placeholder="tanggal_lahir" required/>
+                            </div>
+                            <div class="form-group">
+                                <label>Jenis Kelamin</label>
+                                <select class="form-control" id="gender" name="gender">
+                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                    <option value="L">Laki - Laki</option>
+                                    <option value="P">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nomor HP</label>
+                                <input type="text" class="form-control" name="nomor_hp" placeholder="nomor_hp" required/>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="email" required/>
+                            </div>
 							<div class="form-group">
-								<label>Judul</label>
-
-								<div class="input-group" id="timepicker" data-target-input="nearest">
-										<input type="text" class="form-control" name="title" placeholder="Judul" required/>
-								</div>
-
-							</div>
-
-							<div class="form-group">
-								<label>Isi</label>
-
-								<div class="input-group" id="timepicker" data-target-input="nearest">
-										<textarea class="form-control" name="body" placeholder="Isi"></textarea>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label>Gambar</label>
-
-								<div class="input-group" id="timepicker" data-target-input="nearest">
-                            <input type="file" name="image">
-								</div>
-							</div>
-
-							<div class="form-group">
-								<button type="submit"class="btn btn-primary" name="button">Buat Artikel</button>
+								<button type="submit"class="btn btn-primary" name="button">Tambahkan Konselor</button>
 							</div>
 						</form>
 					</div>

@@ -107,7 +107,7 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-chart-pie mr-1"></i>
-                                Sales
+                                Grafik Konseling
                             </h3>
                         </div><!-- /.card-header -->
                         <div class="card-body">

@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Config;
+use Facade\FlareClient\Stacktrace\File;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -83,6 +85,17 @@ class AdminController extends Controller
 
     }
 
+    public function createKonselor(Request $request)
+    {
+        $client = new Client();
+        $httpRequest = $client->get(Config::get('constants.api_base_url').'api/program_studi/all');
+        $jsonResponse = $httpRequest->getBody();
+        $response = json_decode($jsonResponse);
+        $listProgramStudi = $response->result->program_studi;
+        $token = $request->session()->get('credential')->token;
+    	return view('admin.konselor.create', compact('listProgramStudi'));
+    }
+
     public function createPembantuDirektur3()
     {
     	return view('admin.pembantu_direktur_create');
@@ -126,32 +139,43 @@ class AdminController extends Controller
             'title' => 'required|string',
             'body' => 'required|string',
         ]);
-        // $image = Str::random(34);
-        // $request->file('image')->move(storage_path('posts'), $image);
-        // $image = storage_path('image') . '/' . $name;
+
+        $imageName = Str::random(34) . '.' . $request->image->extension();
+        $path = $request->file('image')->storeAs(
+            'public/post', $imageName
+        );
+        Storage::setVisibility($path, 'public');
+        // $image_path = public_path('img') . "\\" . $imageName;
+        // echo $image_path;
+        // $file = (object)[];
         // if (file_exists($image_path))
         // {
-        //     $image = file_get_contents($image_path);
-        //     return response($file, 200)->header('Content-Type', 'image/jpeg');
+
+            $file = Storage::get($path);
+        //     // return response($file, 200)->header('Content-Type', 'image/jpeg');
+        //     echo "YES";
         // }
+            // $url = Storage::url($path);
+
         try {
             $client = new Client();
             $token = $request->session()->get('credential')->token;
             $httpRequest = $client->post(Config::get('constants.api_base_url').'api/admin/posts/store', [
                 'headers' => [
                     'Authorization' => 'bearer ' . $token,
+                    'X-Upload-Content-Type' => 'image'
                 ],
                 'form_params' => [
                     'title' => $request->title,
                     'body' => $request->body,
-                    'image' => $request->image
+                    'image_url' => $imageName
                 ],
             ]);
             $jsonResponse = $httpRequest->getBody();
-            echo $jsonResponse;
-            // $response = json_decode($jsonResponse);
-            // $posts = $response->result->posts;
-            // return redirect()->route('admin.dashboard')->with('success', 'Artikel berhasil ditambahkan');
+            // echo $jsonResponse;
+            $response = json_decode($jsonResponse);
+            $posts = $response->result->post;
+            return redirect()->route('admin.dashboard')->with('success', 'Artikel berhasil ditambahkan');
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $response = $e->getResponse();
             $responseBodyAsString = $response->getBody()->getContents();

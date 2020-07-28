@@ -52,7 +52,7 @@
                             <table id="riwayat" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Konselor</th>
+                                        <th>Mahasiswa</th>
                                         <th>Waktu</th>
                                         <th>Tempat</th>
                                         <th>Deskripsi</th>

@@ -9,7 +9,7 @@
 </li>
 <li class="nav-header">POST</li>
 <li class="nav-item">
-  <a href="{{route('admin.post.create')}}" class="nav-link {{ (request()->segment(1) == 'admin' && request()->segment(2) == 'post' && request()->segment(3) == '') ? 'active' : '' }}">
+  <a href="{{route('admin.post.create')}}" class="nav-link {{ (request()->segment(1) == 'admin' && request()->segment(2) == 'post') ? 'active' : '' }}">
     <i class="nav-icon far fa-plus-square"></i>
     <p>
       Buat Artikel
@@ -17,14 +17,15 @@
     </p>
   </a>
 </li>
-<!-- <li class="nav-item">
-  <a href="{{route('mahasiswa.konseling.history')}}" class="nav-link {{ (request()->segment(2) == 'konseling' && request()->segment(3) == 'history') ? 'active' : '' }}">
-    <i class="nav-icon fas fa-book"></i>
+<li class="nav-item">
+  <a href="{{route('admin.konselor.create')}}" class="nav-link {{ (request()->segment(1) == 'admin' && request()->segment(2) == 'konselor') ? 'active' : '' }}">
+    <i class="nav-icon far fa-plus-square"></i>
     <p>
-      Riwayat Konseling
+      Tambah Konselor
     </p>
   </a>
 </li>
+<!--
 <li class="nav-item">
   <a href="{{route('mahasiswa.konseling.create')}}" class="nav-link {{ (request()->segment(2) == 'konseling' && request()->segment(3) == 'create') ? 'active' : '' }}">
     <i class="nav-icon far fa-plus-square"></i>

@@ -79,44 +79,44 @@
                             <a href="{{route('home')}}" class="nav-link">Beranda</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('profile')}}" class="nav-link">Profil</a>
+                            <a href="{{route('profile')}}" class="nav-link active">Profil</a>
                         </li>
                         <?php if(isset(\Session::get('credential')->user_data->roles[0]->name)){ ?>
                         <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" class="nav-link dropdown-toggle">
                                 <?php
-                                      $name = \Session::get('credential')->user_data->profile->nama ;
-                                      $firstName = explode(" ",$name);
-                                      echo "Hai, " . $firstName[0];
-                                   ?>
+                                          $name = \Session::get('credential')->user_data->profile->nama ;
+                                          $firstName = explode(" ",$name);
+                                          echo "Halo,&nbsp" . $firstName[0];
+                                       ?>
                             </a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                                 <?php if(\Session::get('credential')->user_data->roles[0]->name == "admin"){ ?>
-                                <li><a href="{{route('admin.dashboard')}}" class="d-block dropdown-item">Dashboard</a>
-                                </li>
+                                <li><a href="{{route('admin.dashboard')}}" class="d-block dropdown-item">Dashboard
+                                        Admin</a></li>
                                 <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "konselor"){ ?>
-                                <li><a href="{{route('konselor.dashboard')}}"
-                                        class="d-block dropdown-item">Dashboard</a></li>
+                                <li><a href="{{route('konselor.dashboard')}}" class="d-block dropdown-item">Dashboard
+                                        Konseling</a></li>
                                 <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "mahasiswa"){ ?>
-                                <li><a href="{{route('mahasiswa.dashboard')}}"
-                                        class="d-block dropdown-item">Dashboard</a></li>
-                                <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "pembantu_direktur"){ ?>
+                                <li><a href="{{route('mahasiswa.dashboard')}}" class="d-block dropdown-item">Dashboard
+                                        Konseling</a></li>
+                                <?php } elseif(\Session::get('credential')->user_data->roles[0]->name == "pd3"){ ?>
                                 <li><a href="{{route('pembantu_direktur.dashboard')}}"
-                                        class="d-block dropdown-item">Dashboard</a></li>
+                                        class="d-block dropdown-item">Dashboard BKP</a></li>
                                 <?php } ?>
                                 <li class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{route('auth.logout')}}" method="post">
                                         @csrf
-                                        <button type="submit" class="dropdown-item">Logout</button>
+                                        <button type="submit" class="dropdown-item text-danger">Keluar</button>
                                     </form>
                                 </li>
                             </ul>
                         </li>
                         <?php } else { ?>
                         <li class="nav-item">
-                            <a href="{{route('auth.login_form')}}" class="nav-link">Dashboard</a>
+                            <a href="{{route('auth.login_form')}}" class="nav-link">Laman Konseling</a>
                         </li>
                         <?php } ?>
                     </ul>
@@ -127,6 +127,32 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container">
+                    <div class="row my-3">
+                        <div class="col-sm-6">
+                            <h1 class="ml-3 text-dark">Struktur BKP</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <!-- <li class="breadcrumb-item active"><a href="{{url('/')}}">Home</a></li> -->
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <div class="content">
+                <div class="container">
+                    <div class="container page-container">
+                        <img src="{{asset('images/struktur-organisasi.png')}}" class="w-100"  alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- /.content -->
+
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container">
@@ -153,12 +179,16 @@
                             <div class="col-sm-6 col-md-4 col-lg-3">
                                 <div class="card">
                                     <div class="container">
-                                        <p><b>{{$konselor->nama}}</b></p>
-                                        <p class="title">{{$konselor->program_studi_id}}</p>
+                                        <p>
+                                            <img src="https://api.adorable.io/avatars/40/{{ $konselor->id }}"
+                                                class="img-circle elevation-1 w-50" alt="">
+                                        </p>
+                                        <p class="m-0"><b>{{$konselor->nama}}</b></p>
+                                        <p class="title">{{$konselor->program_studi->nama}}</p>
                                         @if(isset(\Session::get('credential')->user_data))
-                                            <p>{{$konselor->email}}</p>
+                                        <p>{{$konselor->email}}</p>
                                         @else
-                                            <p class="text-secondary">Login untuk melihat kontak.</p>
+                                        <p class="text-secondary">Login untuk melihat kontak.</p>
                                         @endif
                                     </div>
                                 </div>

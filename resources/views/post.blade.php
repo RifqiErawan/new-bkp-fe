@@ -33,7 +33,7 @@
                     <!-- Left navbar links -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a href="{{route('home')}}" class="nav-link active">Beranda</a>
+                            <a href="{{route('home')}}" class="nav-link">Beranda</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('profile')}}" class="nav-link">Profil</a>
@@ -141,41 +141,29 @@
                         <!-- Blog Entries Column -->
                         <div class="col-md-8">
                             @isset($posts)
-                            @foreach ($posts as $post)
 
                             <!-- Blog Post -->
                             <div class="card mb-4">
-                                @isset($post->image_url)
+                                @isset($posts->image_url)
 
-                                <div class="card-img-top"
-                                    style="height: 19rem;
-                                    background-image: url('http://localhost:8000/storage/post/{{$post->image_url}}');
-                                    background-size: cover;
-                                    background-repeat: no-repeat;
-                                    background-position: 50% 50%;"
-                                    alt="{{$post->image_url}}"></div>
+                                <img class="card-img-top"
+                                    src="http://localhost:8000/storage/post/{{$posts->image_url}}">
                                 @endisset
                                 <div class="card-body">
-                                    <h2 class="card-title"><b>{{$post->title}}</b></h2>
-                                    <p class="card-text">{{Str::words($post->body, 20, ' ...')}}</p>
+                                    <h2 class="card-title"><b>{{$posts->title}}</b></h2>
+                                    <p class="card-text">{{$posts->body}}</p>
                                 </div>
                                 <div class="card-footer text-muted">
-                                    @if($post->created_at == $post->updated_at)
+                                    @if($posts->created_at == $posts->updated_at)
                                     Dibuat
                                     @else
                                     Diperbaharui
                                     @endif
-                                    pada {{$post->updated_at}} oleh <a href="">Admin</a>
-                                    <form action="{{route('post.get')}}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$post->id}}">
-                                        <button type="submit" class="m-0 btn btn-secondary btn-sm float-right">Baca Selengkapnya</button>
-                                    </form>
+                                    pada {{$posts->updated_at}} oleh <a href="">Admin</a>
                                 </div>
                             </div>
-                            @endforeach
                             @endisset
-                            @empty($posts)
+                            @empty($records)
                                 <h3 class="text-center text-secondary my-5">Belum ada posting</h3>
                             @endempty
                             @empty(!$posts)
@@ -238,12 +226,6 @@
                                     data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
                                     <blockquote cite="https://www.facebook.com/" class="fb-xfbml-parse-ignore"><a
                                             href="https://www.facebook.com/">Facebook</a></blockquote>
-                                </div>
-                            </div>
-                            <div class="card my-4">
-                                <h5 class="card-header">PEER BKP POLBAN - IG</h5>
-                                <div class="card-body">
-                                    <iframe src="https://www.instagram.com/p/CCGSa8sjb0Z/embed" width="320" height="420" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
                                 </div>
                             </div>
 

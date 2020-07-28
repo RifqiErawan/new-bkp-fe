@@ -21,25 +21,37 @@ class KonselorController extends Controller
 
     public function show(Request $request)
     {
-      try {
-          $client = new Client();
-          $token = $request->session()->get('credential')->token;
-          $httpRequest = $client->post(Config::get('constants.api_base_url').'api/konseling/one', [
-            'headers' => [
-                'Authorization' => 'bearer ' . $token,
-            ],
-            'form_params' => $request->except('_token')
-          ]);
-          $jsonResponse = $httpRequest->getBody();
-          $response = json_decode($jsonResponse);
-          // echo $jsonResponse;
-          $konseling = $response->result->konseling;
-          return view('konselor.konseling.showone', compact('konseling'));
-      } catch (GuzzleHttp\Exception\ClientException $e) {
-          $response = $e->getResponse();
-          $responseBodyAsString = $response->getBody()->getContents();
-          echo $responseBodyAsString;
-      }
+        try {
+            $client = new Client();
+            $token = $request->session()->get('credential')->token;
+            $httpRequest = $client->post(Config::get('constants.api_base_url').'api/konseling/one', [
+                'headers' => [
+                    'Authorization' => 'bearer ' . $token,
+                ],
+                'form_params' => $request->except('_token')
+            ]);
+            $jsonResponse = $httpRequest->getBody();
+            $response = json_decode($jsonResponse);
+            $konseling = $response->result->konseling;
+
+            $client = new Client();
+            $token = $request->session()->get('credential')->token;
+            $httpRequest = $client->get(Config::get('constants.api_base_url').'api/kategori_masalah', [
+                'headers' => [
+                    'Authorization' => 'bearer ' . $token,
+                ],
+                'form_params' => $request->except('_token')
+            ]);
+            $jsonResponse = $httpRequest->getBody();
+            $response = json_decode($jsonResponse);
+            $listKategori = $response->result->list_kategori;
+
+            return view('konselor.konseling.showone', compact('konseling','listKategori'));
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            echo $responseBodyAsString;
+        }
     }
 
     public function konselingAll(Request $request)

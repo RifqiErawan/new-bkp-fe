@@ -16,6 +16,7 @@ Route::get('profile', 'PageController@profile')->name('profile');
 Route::get('login', 'AuthenticationController@loginForm')->name('auth.login_form');
 Route::post('login_submit', 'AuthenticationController@login')->name('auth.login');
 Route::post('logout', 'AuthenticationController@logout')->name('auth.logout');
+Route::post('/', 'PostController@get')->name('post.get');
 
 Route::prefix('admin')->group(function () {
     Route::get('/', 'AdminController@dashboard')->name('admin.dashboard');
@@ -32,6 +33,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/store', 'AdminController@storePembantuDirektur')->name('admin.pembantu_direktur.store');
     });
     Route::prefix('post')->group(function () {
+        Route::post('/', 'PostController@get')->name('admin.post.get');
         Route::get('/create', 'AdminController@createPost')->name('admin.post.create');
         Route::post('/store', 'AdminController@storePost')->name('admin.post.store');
     });
